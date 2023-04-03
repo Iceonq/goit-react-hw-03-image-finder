@@ -1,17 +1,13 @@
 import React, { Component } from 'react';
+import { ImageGalleryItem } from 'components/ImageGalleryItem/ImageGalleryItem';
+import css from './ImageGallery.module.css';
 
 export class ImageGallery extends Component {
   render() {
     return (
-      <ul className="gallery">
-        {/* <!-- Zbiór <li> z obrazami --> */}
-
+      <ul className={css.gallery}>
         {this.props.images.map(image => {
-          return (
-            <li>
-              <img src={image.webformatURL} alt={image.tags} />
-            </li>
-          );
+          return <ImageGalleryItem image={image} />;
         })}
       </ul>
     );
