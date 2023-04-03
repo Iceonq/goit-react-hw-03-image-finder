@@ -9,7 +9,7 @@ export class ImageGallery extends Component {
         {this.props.images.map(image => {
           return (
             <li>
-              <img src={image.webformatURL} />
+              <img src={image.webformatURL} alt={image.tags} />
             </li>
           );
         })}
