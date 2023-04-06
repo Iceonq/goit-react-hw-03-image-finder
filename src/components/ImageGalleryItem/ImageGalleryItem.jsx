@@ -10,6 +10,7 @@ export class ImageGalleryItem extends Component {
           src={image.webformatURL}
           alt={image.tags}
           className={css.galleryitemimage}
+          onClick={this.props.handleClick}
         />
       </li>
     );

@@ -6,6 +6,8 @@ export class Button extends Component {
     let buttonVisibility = {};
     if (this.props.hasMore === false) {
       buttonVisibility.opacity = 0;
+    } else {
+      buttonVisibility.opacity = 1;
     }
     return (
       <button

@@ -15,6 +15,9 @@ export class App extends Component {
     searchQuery: '',
     page: 1,
     hasMore: true,
+    loading: false,
+    modalOpen: false,
+    selectedImage: null,
   };
 
   handlePagination = e => {
@@ -24,10 +27,31 @@ export class App extends Component {
     });
   };
 
+  handleClick = e => {
+    e.preventDefault();
+
+    this.setState({
+      modalOpen: true,
+      selectedImage: e.target.src,
+    });
+  };
+
   componentDidMount() {
     this.fetchImages();
-    console.log(this.state);
+    document.addEventListener('keydown', this.handleKeyDown);
   }
+
+  componentWillUnmount() {
+    document.removeEventListener('keydown', this.handleKeyDown);
+  }
+
+  handleKeyDown = e => {
+    if (e.key === 'Escape') {
+      this.setState({
+        modalOpen: false,
+      });
+    }
+  };
 
   handleSearch = searchQuery => {
     this.setState({ searchQuery }, () => {
@@ -36,15 +60,9 @@ export class App extends Component {
     this.setState({ images: [] });
   };
 
-  // handlePagination = page => {
-  //   this.setState({ page }),
-  //     () => {
-  //       page + 1;
-  //     };
-  // };
-
   fetchImages = async () => {
     try {
+      this.setState({ loading: true });
       const response = await axios.get(
         `https://pixabay.com/api/?q=${this.state.searchQuery}&page=${this.state.page}&key=${KEY}&image_type=photo&orientation=horizontal&per_page=12}`
       );
@@ -53,10 +71,12 @@ export class App extends Component {
         alert('Nothing was found');
         this.setState({
           hasMore: false,
+          loading: false,
         });
       } else {
         this.setState(prevState => ({
           images: [...prevState.images, ...newImages],
+          loading: false,
         }));
 
         this.setState({ newImages });
@@ -70,13 +90,17 @@ export class App extends Component {
     return (
       <div>
         <Searchbar onSearch={this.handleSearch} />
-        <ImageGallery images={this.state.images} />
-        <Loader />
+        <ImageGallery
+          images={this.state.images}
+          modalOpen={this.state.modalOpen}
+          handleClick={this.handleClick}
+        />
+        {this.state.loading && <Loader />}
         <Button
           pagination={this.handlePagination}
           hasMore={this.state.hasMore}
         />
-        <Modal />
+        {this.state.modalOpen && <Modal image={this.state.selectedImage} />}
       </div>
     );
   }
