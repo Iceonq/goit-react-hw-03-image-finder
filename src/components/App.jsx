@@ -6,6 +6,7 @@ import { Loader } from './Loader/Loader';
 import { Modal } from './Modal/Modal';
 import { Searchbar } from './Searchbar/Searchbar';
 import axios from 'axios';
+import PropTypes from 'prop-types';
 
 const KEY = '33284780-c89390efdc4f502db65b92b61';
 
@@ -105,3 +106,12 @@ export class App extends Component {
     );
   }
 }
+
+App.propTypes = {
+  images: PropTypes.object,
+  searchQuery: PropTypes.string,
+  page: PropTypes.number,
+  loading: PropTypes.bool,
+  modalOpen: PropTypes.bool,
+  selectedImage: PropTypes.object,
+};

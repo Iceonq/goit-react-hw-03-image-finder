@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import css from './ImageGalleryItem.module.css';
+import PropTypes from 'prop-types';
 
 export class ImageGalleryItem extends Component {
   render() {
@@ -16,3 +17,7 @@ export class ImageGalleryItem extends Component {
     );
   }
 }
+
+ImageGalleryItem.propTypes = {
+  image: PropTypes.object,
+};
