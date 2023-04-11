@@ -27,8 +27,6 @@ export class App extends Component {
       this.setState({ page: this.state.page + 1 }, () => {
         this.fetchImages();
       });
-    } else {
-      alert('nics');
     }
   };
 
