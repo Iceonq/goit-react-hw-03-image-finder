@@ -6,8 +6,8 @@ export class Modal extends Component {
   render() {
     const { image } = this.props;
     return (
-      <div className={css.overlay}>
-        <div className={css.modal}>
+      <div className={css.overlay} onClick={this.props.handleCloseModal}>
+        <div className={css.modal} onClick={e => e.stopPropagation()}>
           <img src={image} alt="Cze" />
         </div>
       </div>

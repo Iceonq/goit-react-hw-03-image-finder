@@ -23,18 +23,25 @@ export class App extends Component {
 
   handlePagination = e => {
     e.preventDefault();
-    this.setState({ page: this.state.page + 1 }, () => {
-      this.fetchImages();
-    });
+    if (this.state.hasMore === true) {
+      this.setState({ page: this.state.page + 1 }, () => {
+        this.fetchImages();
+      });
+    } else {
+      alert('nics');
+    }
   };
 
   handleClick = e => {
     e.preventDefault();
-
     this.setState({
       modalOpen: true,
       selectedImage: e.target.src,
     });
+  };
+
+  handleCloseModal = () => {
+    this.setState({ modalOpen: false });
   };
 
   componentDidMount() {
@@ -68,7 +75,7 @@ export class App extends Component {
         `https://pixabay.com/api/?q=${this.state.searchQuery}&page=${this.state.page}&key=${KEY}&image_type=photo&orientation=horizontal&per_page=12}`
       );
       const newImages = response.data.hits;
-      if (response.data.totalHits === 0) {
+      if (response.data.hits.length === 0) {
         alert('Nothing was found');
         this.setState({
           hasMore: false,
@@ -78,6 +85,7 @@ export class App extends Component {
         this.setState(prevState => ({
           images: [...prevState.images, ...newImages],
           loading: false,
+          hasMore: true,
         }));
 
         this.setState({ newImages });
@@ -101,7 +109,12 @@ export class App extends Component {
           pagination={this.handlePagination}
           hasMore={this.state.hasMore}
         />
-        {this.state.modalOpen && <Modal image={this.state.selectedImage} />}
+        {this.state.modalOpen && (
+          <Modal
+            image={this.state.selectedImage}
+            handleCloseModal={this.handleCloseModal}
+          />
+        )}
       </div>
     );
   }

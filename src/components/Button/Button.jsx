@@ -4,10 +4,10 @@ import css from './Button.module.css';
 export class Button extends Component {
   render() {
     let buttonVisibility = {};
-    if (this.props.hasMore === false) {
-      buttonVisibility.opacity = 0;
-    } else {
+    if (this.props.hasMore === true) {
       buttonVisibility.opacity = 1;
+    } else {
+      buttonVisibility.opacity = 0;
     }
     return (
       <button
